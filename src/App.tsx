@@ -1,83 +1,96 @@
-import React, { useState } from 'react'
-import './App.css'
+import React, { useState } from 'react';
+import './App.css';
 
 export default function App() {
   const [taskArray, setTaskArray] = useState(["吃饭", "睡觉", "打豆豆"]);
   const taskNumber = taskArray.length; //number of tasks
-  const [checkedItems, setCheckedItems] = useState([]); //被勾选的tasks的array
-  const checkedItemsNumber = checkedItems.length; //被勾选的数量
+  const [checkedItems, setCheckedItems] = useState({}); //被勾选的tasks的对象
+  const checkedItemsNumber = Object.keys(checkedItems).length; //被勾选的数量
 
-  function handleCheckboxChange(item) {
-    if (checkedItems.includes(item)) {
-      setCheckedItems(checkedItems.filter((checkedItem) => checkedItem !== item));
-    } else {
-      setCheckedItems([...checkedItems, item]);
-    }
+  function handleCheckboxChange(task) {
+    setCheckedItems((prevState) => {
+      const updatedCheckedItems = { ...prevState };
+      if (updatedCheckedItems[task]) {
+        delete updatedCheckedItems[task];
+      } else {
+        updatedCheckedItems[task] = true;
+      }
+      return updatedCheckedItems;
+    });
   }
 
-  const taskList = taskArray.map((task) => { //this is a <li>(may be put in a <div> to show the edge of each <li>) from a <ul>, key is task name
+  const taskList = taskArray.map((task) => {
+    const isChecked = checkedItems[task] || false;
     return (
-      <li key = {task}>
-        <input type = "checkbox" onChange = {() => handleCheckboxChange(task)} /> 
-        {task}
-      </li>
+      <tr className="taskRow" key={task}>
+        <td>
+          <li>
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={() => handleCheckboxChange(task)}
+            />
+            {task}
+          </li>
+        </td>
+        <td>
+          <button onClick={() => handleClickDelete(task)}>删除</button>
+        </td>
+      </tr>
     );
   });
 
-  const taskList1 = checkedItems.map((task) => { //this is a <li>(may be put in a <div> to show the edge of each <li>) from a <ul>, key is task name
-    return (
-      <li>
-        {task}
-      </li>
-    );
-  });
-
-  function handleClickUp() {
-    
+  function handleClickDelete(task) {
+    setTaskArray((prevTaskArray) => prevTaskArray.filter((item) => item !== task));
+    setCheckedItems((prevCheckedItems) => {
+      const updatedCheckedItems = { ...prevCheckedItems };
+      delete updatedCheckedItems[task];
+      return updatedCheckedItems;
+    });
   }
 
-  function handleClickDown() {
+  function handleClickUp() {}
 
-  }
+  function handleClickDown() {}
 
   return (
-    <div className = "background">
+    <div className="background">
       <h1>React Todo</h1>
-      <div className = "thingsToDo">
-        <ThingsToDo taskList={taskList} finishedTaskNumber={checkedItemsNumber} taskNumber={taskNumber} />
+      <div className="thingsToDo">
+        <ThingsToDo
+          taskList={taskList}
+          finishedTaskNumber={checkedItemsNumber}
+          taskNumber={taskNumber}
+        />
       </div>
-      <div className = "tasksToAdd">
+      <div className="tasksToAdd">
         <TasksToAdd />
       </div>
     </div>
-  )
+  );
 }
 
-
-
-function ThingsToDo({ taskList, finishedTaskNumber, taskNumber }) { //finished
+function ThingsToDo({ taskList, finishedTaskNumber, taskNumber }) {
   return (
-    <>
-      <div className = "unorderedList">
-        {taskList}
+    <div>
+      <div className="unorderedList">
+        <table>
+          <tbody>{taskList}</tbody>
+        </table>
       </div>
-      <div className = "information">
+      <div className="information">
         {finishedTaskNumber}已完成/{taskNumber}总数
       </div>
-    </>
+    </div>
   );
 }
 
-function TasksToAdd() {//todo
+function TasksToAdd() {
   return (
     <>
-    <div className = "Task">Task</div>
-    <div> 
-
-    </div>
+      <div className="Task">Task</div>
+      <div></div>
     </>
   );
 }
-
-
 
