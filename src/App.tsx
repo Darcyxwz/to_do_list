@@ -49,10 +49,13 @@ export default function App() {
     });
   }
 
-  function handleClickUp() {}
-
-  function handleClickDown() {}
-
+  function handleClickDown(i) {
+    if (i == ""){return};
+    setTaskArray((prev) => {
+      return [...prev, i];
+    });
+  }
+  
   return (
     <div className="background">
       <h1>React Todo</h1>
@@ -64,11 +67,12 @@ export default function App() {
         />
       </div>
       <div className="tasksToAdd">
-        <TasksToAdd />
+        <TasksToAdd onTasksToAddClick={handleClickDown}/>
       </div>
     </div>
   );
 }
+
 
 function ThingsToDo({ taskList, finishedTaskNumber, taskNumber }) {
   return (
@@ -85,12 +89,31 @@ function ThingsToDo({ taskList, finishedTaskNumber, taskNumber }) {
   );
 }
 
-function TasksToAdd() {
+function TasksToAdd({ onTasksToAddClick }) {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleChange = (event) => { /////
+    setInputValue(event.target.value);
+  };
+
+  const handleSubmit = (event) => { /////
+    event.preventDefault();
+    onTasksToAddClick(inputValue);
+    setInputValue(''); // 清空输入
+  };
+
+
   return (
     <>
       <div className="Task">Task</div>
-      <div></div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <input type="text" value={inputValue} onChange={handleChange}  placeholder="请输入你要添加的任务" />
+        </div>
+        <div>
+          <button type = "submit">Save Task</button>
+        </div>
+      </form>
     </>
   );
 }
-
