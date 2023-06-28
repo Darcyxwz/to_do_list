@@ -22,21 +22,23 @@ export default function App() {
   const taskList = taskArray.map((task) => {
     const isChecked = checkedItems[task] || false; //若不含有task，则checkedItems[task]为undefined，所以后面应为||false,确保答案为false与true
     return (
-      <tr className="taskRow" key={task}>
-        <td>
-          <li>
-            <input
-              type="checkbox"
-              checked={isChecked}
-              onChange={() => handleCheckboxChange(task)}
-            />
-            {task}
-          </li>
-        </td>
-        <td>
-          <button onClick={() => handleClickDelete(task)}>删除</button>
-        </td>
-      </tr>
+      <div className = "rowClass">
+        <tr className="taskRow" key={task}>
+          <td>
+            <li>
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={() => handleCheckboxChange(task)}
+              />
+              {task}
+            </li>
+          </td>
+          <td>
+            <button onClick={() => handleClickDelete(task)}>删除</button>
+          </td>
+        </tr>
+      </div>
     );
   });
 
@@ -74,18 +76,21 @@ export default function App() {
   );
 }
 
-
 function ThingsToDo({ taskList, finishedTaskNumber, taskNumber }) {
   return (
-    <div>
+    <div className = "thingsToDo">
       <div className="unorderedList">
         <table>
           <tbody>{taskList}</tbody>
+          <tbody>
+            <div className = "rowClass">
+              {finishedTaskNumber}已完成/{taskNumber}总数
+            </div>
+          </tbody>
         </table>
+        
       </div>
-      <div className="information">
-        {finishedTaskNumber}已完成/{taskNumber}总数
-      </div>
+      
     </div>
   );
 }
