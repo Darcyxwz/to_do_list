@@ -51,6 +51,7 @@ export default function App() {
 
   function handleClickDown(i) {
     if (i == ""){return};
+    if (taskArray.includes(i)) {return};
     setTaskArray((prev) => {
       return [...prev, i];
     });
