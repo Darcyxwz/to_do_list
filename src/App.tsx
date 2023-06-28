@@ -18,7 +18,15 @@ export default function App() {
   const taskList = taskArray.map((task) => { //this is a <li>(may be put in a <div> to show the edge of each <li>) from a <ul>, key is task name
     return (
       <li key = {task}>
-        <input type = "checkbox" onChange = {() => handleCheckboxChange({task})} /> 
+        <input type = "checkbox" onChange = {() => handleCheckboxChange(task)} /> 
+        {task}
+      </li>
+    );
+  });
+
+  const taskList1 = checkedItems.map((task) => { //this is a <li>(may be put in a <div> to show the edge of each <li>) from a <ul>, key is task name
+    return (
+      <li>
         {task}
       </li>
     );
