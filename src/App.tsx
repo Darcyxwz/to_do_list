@@ -20,7 +20,7 @@ export default function App() {
   }
 
   const taskList = taskArray.map((task) => {
-    const isChecked = checkedItems[task] || false;
+    const isChecked = checkedItems[task] || false; //若不含有task，则checkedItems[task]为undefined，所以后面应为||false,确保答案为false与true
     return (
       <tr className="taskRow" key={task}>
         <td>
