@@ -98,11 +98,11 @@ function ThingsToDo({ taskList, finishedTaskNumber, taskNumber }) {
 function TasksToAdd({ onTasksToAddClick }) {
   const [inputValue, setInputValue] = useState("");
 
-  const handleChange = (event) => { /////
+  const handleChange = (event) => { 
     setInputValue(event.target.value);
   };
 
-  const handleSubmit = (event) => { /////
+  const handleSubmit = (event) => { 
     event.preventDefault();
     onTasksToAddClick(inputValue);
     setInputValue(''); // 清空输入
